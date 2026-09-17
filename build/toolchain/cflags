@@ -1,5 +1,0 @@
--mlongcalls
--fno-builtin-memcpy
--fno-builtin-memset
--fno-builtin-bzero
-"-specs=C:/Users/justi/Desktop/ESP32_Projects/Air quality monitor/build/specs/picolibc.specs"
