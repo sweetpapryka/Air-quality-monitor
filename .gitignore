@@ -1,0 +1,8 @@
+.build/
+.managed_components/
+.clangd
+.clang-format
+.project
+.cproject
+.settings/
+.implementation/
