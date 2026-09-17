@@ -1,0 +1,19 @@
+Startup sequence:
+1. Push in button on the side so the device turns on.
+2. Device asks if you want to connect to the network to see data on your phone
+3. User accepts/declines
+4. Connects to wifi/Bluetooth if accepted, fully connects to the app where it will display the data
+5. Starts working, displaying measurements
+
+During operation:
+- Person can click button to the side to enter settings and click the same button again to exit.
+In settings he can:
+Disconnect/connect to Wifi/Bluetooth
+Change language
+Change fonts
+Change time and date
+Enble child lock feature
+
+At any time:
+- Unpush the power button to cut off power form the device and turn it off 09898
+
