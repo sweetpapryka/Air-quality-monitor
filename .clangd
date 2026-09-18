@@ -1,3 +1,0 @@
-CompileFlags:
-  CompilationDatabase: C:\Users\justi\Desktop\ESP32_Projects\Air quality monitor\build
-  Remove: [-m*, -f*]
