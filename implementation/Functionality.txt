@@ -17,3 +17,17 @@ Enble child lock feature
 At any time:
 - Unpush the power button to cut off power form the device and turn it off 09898
 
+Other:
+- Disable button GPIOs for around 400ms or time after a press so no false debounce ISRs (ISRs that check last press time and exit if its too low) register 
+- MOSFET to power button circuitry so the button doesnt bear all the load and insteads just switches the mosfet to enable current flow to the circuit
+
+
+Possibly:
+- MOSFETs to sensors to cut power when not in use and not in use periods are very small? 1s worths or a tad bit more
+
+Wifi with HA:
+- Initial setup of wifi and MQTT over softAP
+- 
+
+
+
