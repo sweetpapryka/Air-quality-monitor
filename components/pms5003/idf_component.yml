@@ -1,0 +1,4 @@
+dependencies:
+  idf:
+    version: '>=4.1.0'
+  petrovgp/esp-pms: ^1.0.0
