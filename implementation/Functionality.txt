@@ -30,8 +30,14 @@ Wifi with HA:
 - Initial setup of wifi and MQTT over softAP
 - 
 
-
-
+Security:
+- Flash encryption
+- Secure boot
+- JTAG disable
+- other eFuse security options
+- NVS encryption using HMAC
+- OTA updates with rollback protection
+- Enable soft JTAG using HMAC
 
 Finished steps at the end:
 - Add LICENSE and THIRD_PARTY_LICENSES to your release
