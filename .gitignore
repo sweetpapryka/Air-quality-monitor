@@ -8,5 +8,3 @@ managed_components/
 .settings
 sdkconfig
 sdkconfig.old
-implementation/
-unfinished_source_files/.
