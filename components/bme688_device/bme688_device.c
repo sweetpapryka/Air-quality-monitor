@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <string.h>
  
-#include "bme68x_defs.h"
 #include "freertos/FreeRTOS.h"
 
 #include "driver/i2c_master.h"
@@ -10,6 +9,7 @@
 
 #include "bme688_device.h"
 #include "bme68x.h"
+#include "bme68x_defs.h"
 #include "bsec_interface.h"
 #include "bsec_datatypes.h"
 
@@ -185,12 +185,11 @@ static void bme688_task(void *arg)
 				}
 			}
 		}
-		/*
+		
 		if(loops_cnt == 1000)
 		{
 			bsec_get_state(const uint8_t state_set_id, uint8_t *serialized_state, const uint32_t n_serialized_state_max, uint8_t *work_buffer, const uint32_t n_work_buffer, uint32_t *n_serialized_state)
 		}
-		*/
 		
 		int64_t wait_ms = (bme_settings.next_call - now_ns()) / 1000000;
 		// Add 1ms to compensate for rounding
