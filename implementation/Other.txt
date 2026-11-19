@@ -1,1 +1,3 @@
 Understand what versions to put in dependencies
+
+Check bme688 implemenation functions for bugs
