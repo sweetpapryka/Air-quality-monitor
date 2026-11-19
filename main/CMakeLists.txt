@@ -5,7 +5,7 @@ idf_component_register(
     SRCS main.c        
     INCLUDE_DIRS       
     PRIV_INCLUDE_DIRS  
-    REQUIRES "esp_driver_gpio" "esp_partition" "nvs_flash" "esp_netif" "bme688" "pms5003" "bme688_device"
+    REQUIRES "esp_driver_gpio" "esp_partition" "nvs_flash" "esp_netif" "bme688" "pms5003" "bme688_device" "nvs_component"
     PRIV_REQUIRES
     EMBED_TXTFILES "./certs/ca.pem"       
 )

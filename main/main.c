@@ -4,6 +4,7 @@
 
 #include "bme688_device.h"
 #include "pms5003.h"
+#include "nvs_component.h"
 
 
 static const char TAG[] = "app_main";
@@ -13,7 +14,6 @@ void app_main()
 {
 	start_pms5003();
 	start_bme688();
-	
 	
 	vTaskDelay(pdMS_TO_TICKS(10000));
 	for(;;)

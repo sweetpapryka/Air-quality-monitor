@@ -1,0 +1,10 @@
+# Name,      Type, SubType, Offset,   Size,    Flags
+# Based on the ESP-IDF "Factory app, two OTA definitions" layout,
+# with the default nvs partition replaced by two BSEC NVS partitions.
+bsec_main,   data, nvs,     0x9000,   0x4000,
+bsec_backup, data, nvs,     0xD000,   0x4000,
+otadata,     data, ota,     0x11000,  0x2000,
+phy_init,    data, phy,     0x13000,  0x1000,
+factory,     app,  factory, 0x20000,  1M,
+ota_0,       app,  ota_0,   0x120000, 1M,
+ota_1,       app,  ota_1,   0x220000, 1M,
