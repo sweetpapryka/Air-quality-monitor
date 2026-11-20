@@ -38,6 +38,7 @@ Security:
 - NVS encryption using HMAC
 - OTA updates with rollback protection
 - Enable soft JTAG using HMAC
+- mTLS for MQTT
 
 Finished steps at the end:
 - Add LICENSE and THIRD_PARTY_LICENSES to your release

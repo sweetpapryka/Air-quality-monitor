@@ -1,0 +1,52 @@
+		STARTING SCREEN
+		
+			MAIN
+AIQ: 210			PMS1: 5
+Temp: -125			PMS2.5: 13
+Humid: 35			PMS10: 18
+21:24<TIME>			Menu>
+			MENU	SCROLLING
+1. Unpair/pair device
+2. New MQTT credentials
+3. Change timezone
+4. Enable child lock
+<Back		\/
+
+		(1.1) UNPAIR 	
+		
+		Are you sure?	
+			Yes		No
+			
+		(1.2.1) PAIR		SCROLLING
+Connect a USB to the
+device launch ESP_IDF powershell and press OK.
+A QR code will appear. Use the ESP BLE Prov App
+to connect your device to WiFi.
+				\/
+				OK
+		(1.2.2) PAIR
+			
+			Waiting for pair...
+<Back	
+				
+				(2.1)	Click on username or password and scrolling letter selection
+	Username:			
+	Password:
+	
+	<Back				Confirm> 
+	
+				2.1.1		
+		
+		Working...
+
+					
+				(3.1)
+				
+				Time: UHT+1
+					
+					
+				(4.1) Enalbe child lock
+				Hold up and down for 5 seconds to unlock
+				Enable child lock?
+					OK
+		<Back
