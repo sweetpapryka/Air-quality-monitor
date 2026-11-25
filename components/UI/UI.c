@@ -3,14 +3,20 @@
 #include "UI.h"
 #include "display.h"
 #include "freertos/idf_additions.h"
+#include "freertos/projdefs.h"
 
 
-typedef struct page{
-	void (*on_enter) (void);
-	void (*on_event) (void);
-	void (*on_exit) (void);
-}page_t;
+#define QUEUE_SIZE					2
 
+
+typedef enum event_type{
+	EVENT_TICK,
+ 	EVENT_BUTTON_ENTER,
+	EVENT_BUTTON_UP,
+	EVENT_BUTTON_RIGHT,
+	EVENT_BUTTON_DOWN,
+	EVENT_BUTTON_LEFT
+}event_type_t;
 
 // Every underscore represents the level of nesting 
 typedef enum pages{
@@ -40,6 +46,17 @@ typedef enum pages{
 }pages_t;
 
 
+typedef struct event{
+	event_type_t event
+}event_t;
+
+typedef struct page{
+	void (*on_enter) (void);
+	void (*on_event) (void);
+	void (*on_exit) (void);
+}page_t;
+
+
 QueueHandle_t event_queue;
 
 
@@ -67,6 +84,19 @@ void ui_task(void *arg)
 		[PAGE_SETTINGS_CHILDLOCK] = {},
 		[PAGE_SETTINGS_CHILDLOCK_CONFIRM] = {},
 	};
+	
+	event_queue = xQueueCreate(QUEUE_SIZE, sizeof(event_t));
+	
+	for(;;)
+	{
+		event_t queue_buffer = {0};
+		if(xQueueReceive(event_queue, &queue_buffer, pdMS_TO_TICKS(1000)) == pdFAIL)
+		{
+			queue_buffer.event = EVENT_TICK;
+		}
+		
+		
+	}
 }
 
 void ui_task_create()
