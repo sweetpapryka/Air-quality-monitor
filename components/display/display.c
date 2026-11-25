@@ -9,8 +9,9 @@
 
 
 #define I2C_ADDR										0x27												
-#define I2C_MASTER_SDA									21
-#define I2C_MASTER_SCL									38
+#define I2C_MASTER_SDA									8
+#define I2C_MASTER_SCL									1
+
 
 static i2c_dev_t pcf8574;
 
@@ -36,7 +37,7 @@ void lcd_test(void *pvParameters)
 {
     hd44780_t lcd =
     {
-        .write_cb = write_lcd_data, // use callback to send data to LCD by I2C GPIO expander
+        .write_cb = write_lcd_data,		 // use callback to send data to LCD by I2C GPIO expander
         .font = HD44780_FONT_5X8,
         .lines = 2,
         .pins = {
@@ -51,7 +52,7 @@ void lcd_test(void *pvParameters)
     };
 
     memset(&pcf8574, 0, sizeof(i2c_dev_t));
-    ESP_ERROR_CHECK(pcf8574_init_desc(&pcf8574, I2C_ADDR, 0, I2C_MASTER_SDA, I2C_MASTER_SCL));
+    ESP_ERROR_CHECK(pcf8574_init_desc(&pcf8574, I2C_ADDR, 1, I2C_MASTER_SDA, I2C_MASTER_SCL));
 
     ESP_ERROR_CHECK(hd44780_init(&lcd));
 

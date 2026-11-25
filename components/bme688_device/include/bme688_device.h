@@ -12,4 +12,4 @@ extern struct bme68x_data bme688_data;
 /*
 * Initializes I2C, BME688 sensor and starts the BME task
 */
-void start_bme688();
+void bme688_device_create_task();

@@ -18,4 +18,4 @@ extern pms_data_t pms5003_data;
 /*
 * Initializes UART, PMS sensor and starts the PMS-UART-Queue task
 */
-void start_pms5003();
+void pms5003_create_task();

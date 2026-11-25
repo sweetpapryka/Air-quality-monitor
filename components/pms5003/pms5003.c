@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 #include <driver/uart.h>
+#include "freertos/idf_additions.h"
 #include "pms.h"
 #include "pms5003.h"
 
@@ -68,7 +69,7 @@ static void pms_queue_task(void *pvParameters)
 }
 
 
-void start_pms5003()
+void pms5003_create_task()
 {
 	// Init UART
 	uart_config_t uart_config = 
@@ -96,5 +97,5 @@ void start_pms5003()
 	};
 	
 	ESP_ERROR_CHECK(pms_init(&pms_config));
-	xTaskCreate(pms_queue_task, "pms queue task", 4096, NULL, 10, NULL);
+	xTaskCreatePinnedToCore(pms_queue_task, "pms queue task", 4096, NULL, 3, NULL, PRO_CPU_NUM);
 }

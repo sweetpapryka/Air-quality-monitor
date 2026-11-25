@@ -9,6 +9,7 @@ Humid: 35			PMS10: 18
 1. Unpair/pair device
 2. New MQTT credentials
 3. Change timezone
+Reset IAQ state
 4. Enable child lock
 <Back		\/
 

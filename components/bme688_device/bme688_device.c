@@ -6,6 +6,7 @@
 #include "driver/i2c_master.h"
 #include "esp_log.h"
 #include "esp_timer.h"
+#include "freertos/idf_additions.h"
 #include "nvs.h"
 #include "nvs_flash.h"
 
@@ -346,12 +347,12 @@ static void bme688_task(void *arg)
     }
 }
 
-void start_bme688(void)
+void bme688_device_create_task(void)
 {
     ESP_ERROR_CHECK(i2c_bus_init());
 	ESP_ERROR_CHECK(nvs_init());
     
-    xTaskCreate(bme688_task, "bme688_task", 8192, NULL, 10, NULL);
+    xTaskCreatePinnedToCore(bme688_task, "bme688_task", 8192, NULL, 3, NULL, PRO_CPU_NUM);
 
 	ESP_LOGI(TAG, "BME688 task creation complete");
 }

@@ -74,7 +74,7 @@ dependencies:
   idf:
     source:
       type: idf
-    version: 5.5.6
+    version: 6.0.1
   petrovgp/esp-pms:
     component_hash: 99ece412a2ee051ba1a467d42297e231f5c42e89da768b0f9dde7f8fb9a285dc
     dependencies:
@@ -95,4 +95,4 @@ direct_dependencies:
 - petrovgp/esp-pms
 manifest_hash: 57e306bc53a5fbcb3ac997116f17327a2df42403b9ffba8cdf3f3e1ff00ccc8a
 target: esp32s3
-version: 2.0.0
+version: 3.0.0
