@@ -1,9 +1,7 @@
 #include "freertos/FreeRTOS.h"
 
-#include "UI.h"
+#include "ui.h"
 #include "display.h"
-#include "freertos/idf_additions.h"
-#include "freertos/projdefs.h"
 
 
 #define QUEUE_SIZE					2
@@ -47,7 +45,7 @@ typedef enum pages{
 
 
 typedef struct event{
-	event_type_t event_type
+	event_type_t event_type;
 }event_t;
 
 typedef struct page{
@@ -123,7 +121,7 @@ void ui_task(void *arg)
 	}
 }
 
-void ui_task_create()
+void ui_create_task()
 {
 	xTaskCreatePinnedToCore(ui_task, "ui_task", 4096, NULL, 5, NULL, PRO_CPU_NUM);
 }

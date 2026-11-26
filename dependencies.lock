@@ -74,7 +74,7 @@ dependencies:
   idf:
     source:
       type: idf
-    version: 6.0.1
+    version: 6.0.2
   petrovgp/esp-pms:
     component_hash: 99ece412a2ee051ba1a467d42297e231f5c42e89da768b0f9dde7f8fb9a285dc
     dependencies:

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
  
+#include "esp_log_level.h"
 #include "freertos/FreeRTOS.h"
 
 #include "driver/i2c_master.h"
@@ -44,7 +45,7 @@ static const char TAG[] = "bme688_device_component";
 static i2c_master_bus_handle_t master_handle_i2c;
 static i2c_master_dev_handle_t bme_handle_i2c;
      
-struct bme68x_data bme688_data;  
+bme688_bsec_data_t g_bme688_bsec_data;
             
 // Callback for the timer which triggers the task loop to store built-up BSEC config state on next iteration
 static void timer_store_bsec_state_callback(void *arg)
@@ -252,7 +253,9 @@ static void bme688_task(void *arg)
 	
 	struct bme68x_dev bme_dev = {0};
 	static uint8_t work_buffer[BSEC_MAX_WORKBUFFER_SIZE] = {0};
-	
+
+	g_bme688_bsec_data.mutex = xSemaphoreCreateMutex();
+		
 	// Variables to store the built-up BSEC state config in NVS
 	uint8_t  serialized_state[BSEC_MAX_STATE_BLOB_SIZE] = {0};
 	uint32_t n_serialized_state = 0;
@@ -291,23 +294,33 @@ static void bme688_task(void *arg)
 			// Wait for measure
 		    uint32_t wait_us = bme68x_get_meas_dur(BME68X_FORCED_MODE, &bme_conf, &bme_dev) + (uint32_t)bme_heatr_conf.heatr_dur * 1000;
 		    bme_dev.delay_us(wait_us, bme_dev.intf_ptr);
-			if (bme68x_get_data(BME68X_FORCED_MODE, &bme688_data, &n_fields, &bme_dev) == BME68X_OK && n_fields > 0)
+			
+			xSemaphoreTake(g_bme688_bsec_data.mutex, portMAX_DELAY);
+			if (bme68x_get_data(BME68X_FORCED_MODE, &g_bme688_bsec_data.bme688_data, &n_fields, &bme_dev) == BME68X_OK && n_fields > 0)
 			{
 				bsec_input_t in[4];
 				uint8_t n_in = 0;
 				
-				if (bme_settings.process_data & BSEC_PROCESS_TEMPERATURE) ADD_INPUT(BSEC_INPUT_TEMPERATURE, bme688_data.temperature);
-				if (bme_settings.process_data & BSEC_PROCESS_HUMIDITY)    ADD_INPUT(BSEC_INPUT_HUMIDITY,    bme688_data.humidity);
-				if (bme_settings.process_data & BSEC_PROCESS_PRESSURE)    ADD_INPUT(BSEC_INPUT_PRESSURE,    bme688_data.pressure);
-				if ((bme_settings.process_data & BSEC_PROCESS_GAS) && (bme688_data.status & BME68X_GASM_VALID_MSK))
-				    ADD_INPUT(BSEC_INPUT_GASRESISTOR, bme688_data.gas_resistance);
-			
+				if (bme_settings.process_data & BSEC_PROCESS_TEMPERATURE) ADD_INPUT(BSEC_INPUT_TEMPERATURE, g_bme688_bsec_data.bme688_data.temperature);
+				if (bme_settings.process_data & BSEC_PROCESS_HUMIDITY)    ADD_INPUT(BSEC_INPUT_HUMIDITY,    g_bme688_bsec_data.bme688_data.humidity);
+				if (bme_settings.process_data & BSEC_PROCESS_PRESSURE)    ADD_INPUT(BSEC_INPUT_PRESSURE,    g_bme688_bsec_data.bme688_data.pressure);
+				if ((bme_settings.process_data & BSEC_PROCESS_GAS) && (g_bme688_bsec_data.bme688_data.status & BME68X_GASM_VALID_MSK))
+				    ADD_INPUT(BSEC_INPUT_GASRESISTOR, g_bme688_bsec_data.bme688_data.gas_resistance);
+				xSemaphoreGive(g_bme688_bsec_data.mutex);
+				
 				bsec_output_t out[BSEC_NUMBER_OUTPUTS];
 				uint8_t n_out = BSEC_NUMBER_OUTPUTS;
-				if (bsec_do_steps(in, n_in, out, &n_out) >= BSEC_OK) {
-				    for (int i = 0; i < n_out; i++) {
+				if (bsec_do_steps(in, n_in, out, &n_out) >= BSEC_OK) 
+				{
+				    for (int i = 0; i < n_out; i++) 
+					{
 				        if (out[i].sensor_id == BSEC_OUTPUT_IAQ)
-				            printf("IAQ %.1f (accuracy %d)\n", out[i].signal, out[i].accuracy);
+						{
+							xSemaphoreTake(g_bme688_bsec_data.mutex, portMAX_DELAY);
+							g_bme688_bsec_data.IAQ = (uint16_t)out[i].signal;
+							ESP_LOGI(TAG, "IAQ: %.2f", out[i].signal);
+							xSemaphoreGive(g_bme688_bsec_data.mutex);
+						}
 				    }
 				}
 			}

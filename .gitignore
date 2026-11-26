@@ -8,3 +8,4 @@ managed_components/
 .settings
 sdkconfig
 sdkconfig.old
+sdkconfig.defaults
