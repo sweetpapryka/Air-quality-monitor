@@ -2,3 +2,7 @@ Understand what versions to put in dependencies
 
 Check bme688 implemenation functions for bugs
 Refactor pms5003 component
+Can I make display use the same I2C driver as BME688?
+Check stack sizes for each stack
+Did I check the 6o version of esp idf nvs encryption provided example?
+Check NVS sdkconfig options

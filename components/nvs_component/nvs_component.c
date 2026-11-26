@@ -12,6 +12,11 @@
 #include "nvs_component.h"
 
 
+#ifndef CONFIG_NVS_FLASH_VERIFY_ERASE
+	#warning "CONFIG_NVS_FLASH_VERIFY_ERASE is off: higher chance BSEC state might be lost"
+#endif
+
+
 static const char TAG[] = "nvs_component";
 
 

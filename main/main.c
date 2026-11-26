@@ -15,7 +15,7 @@ void app_main()
 {
 	pms5003_create_task();
 	bme688_device_create_task();
-	display_create_task();
+	display_init();
 	
 	vTaskDelay(pdMS_TO_TICKS(10000));
 	for(;;)

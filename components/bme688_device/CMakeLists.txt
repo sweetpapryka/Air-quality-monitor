@@ -1,4 +1,4 @@
 idf_component_register(SRCS "bme688_device.c"
                     INCLUDE_DIRS "include"
                     REQUIRES "bme688"
-                    PRIV_REQUIRES "esp_driver_i2c" "esp_timer" "bsec" "nvs_flash" "nvs_sec_provider" "nvs_component")
+                    PRIV_REQUIRES "esp_driver_i2c" "esp_timer" "nvs_flash" "nvs_sec_provider" "nvs_component" "bsec")

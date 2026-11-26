@@ -47,23 +47,37 @@ typedef enum pages{
 
 
 typedef struct event{
-	event_type_t event
+	event_type_t event_type
 }event_t;
 
 typedef struct page{
 	void (*on_enter) (void);
-	void (*on_event) (void);
+	void (*on_event) (event_t event);
 	void (*on_exit) (void);
 }page_t;
 
 
 QueueHandle_t event_queue;
 
+pages_t current_page = PAGE_HOME;
+pages_t next_page = PAGE_HOME;
+
+// PAGE HOME
+static void home_enter()
+{
+	display_draw_home();
+}
+
+static void home_event(event_t event)
+{
+	
+}
+
 
 void ui_task(void *arg)
 {
 	static page_t ui[PAGE_COUNT] = {
-		[PAGE_HOME] = {},
+		[PAGE_HOME] = {home_enter, home_event},
 		
 		[PAGE_SETTINGS] = {},
 		
@@ -85,17 +99,27 @@ void ui_task(void *arg)
 		[PAGE_SETTINGS_CHILDLOCK_CONFIRM] = {},
 	};
 	
+	event_t event = {0};
 	event_queue = xQueueCreate(QUEUE_SIZE, sizeof(event_t));
 	
+	ui[current_page].on_enter();
 	for(;;)
 	{
-		event_t queue_buffer = {0};
-		if(xQueueReceive(event_queue, &queue_buffer, pdMS_TO_TICKS(1000)) == pdFAIL)
+		if(xQueueReceive(event_queue, &event, pdMS_TO_TICKS(1000)) == pdFAIL)
 		{
-			queue_buffer.event = EVENT_TICK;
+			event.event_type = EVENT_TICK;
 		}
 		
+		if(ui[current_page].on_event)
+			ui[current_page].on_event(event);
 		
+		if(next_page != current_page)
+		{
+			if(ui[current_page].on_exit)
+				ui[current_page].on_exit();
+			ui[next_page].on_enter();
+			current_page = next_page;	
+		}
 	}
 }
 
